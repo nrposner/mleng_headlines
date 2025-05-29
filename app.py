@@ -58,7 +58,7 @@ def sentiment_deployment_pipeline(headlines_txt, source):
 
     # create the name of the file for output
     output_filename = (
-        f"headline_scores_{source}_{date.year}_{date.month}_{date.day}.txt"
+        f"nrposner_headline_scores_{source}_{date.year}_{date.month}_{date.day}.txt"
     )
 
     # write the output file
