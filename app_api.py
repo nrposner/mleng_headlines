@@ -76,11 +76,12 @@ def score_headlines():
 
         return jsonify({"labels": labels})
 
-    except Exception as e:
+    except ValueError as ve:
         logging.exception("Error processing request")
-        return jsonify({"error": str(e)}), 500
-    # assuming they do not get returned as a list specifically,
-    # but we need to get them out of this iterable
+        return jsonify({"error": str(ve)}), 500
+    except TypeError as te:
+        logging.exception("Error processing request")
+        return jsonify({"error": str(te)}), 500
 
 
 if __name__ == "__main__":
