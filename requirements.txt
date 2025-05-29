@@ -1,2 +1,3 @@
-fastapi[standard]
-uvicorn
+flask
+joblib
+sentence_transformers
