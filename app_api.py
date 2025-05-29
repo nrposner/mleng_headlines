@@ -50,6 +50,9 @@ def score_headlines():
     """
     try:
         data = request.json
+        if data is None:
+            logging.error("Error processing request: No JSON data received")
+            return jsonify({"error": "No JSON data received"}), 400
         headlines = data.get("headlines", [])
 
         if not isinstance(headlines, list) or not all(
