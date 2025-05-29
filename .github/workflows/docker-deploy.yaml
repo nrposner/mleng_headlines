@@ -20,9 +20,9 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/mleng_headlines:latest
-            docker stop ${{ secrets.DOCKER_USERNAME }}/mleng_headlines || true
-            docker rm ${{ secrets.DOCKER_USERNAME }}/mleng_headlines || true
-            docker run -d --name ${{ secrets.DOCKER_USERNAME }}/mleng_headlines -v /opt/assignment_outputs:/app/data ${{ secrets.DOCKER_USERNAME }}/mleng_headlines:latest
+            docker stop mleng_headlines || true
+            docker rm mleng_headlines || true
+            docker run -d --name mleng_headlines -v /opt/assignment_outputs:/app/data ${{ secrets.DOCKER_USERNAME }}/mleng_headlines:latest
 
 # The final block "logs on" to the remote server
 # - gets the latest docker image from the repository
