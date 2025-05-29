@@ -36,16 +36,16 @@ jobs:
 
     - name: List installed packages
       run: |
-        pip list
+        .venv/bin/pip list
 
     - name: Run ruff
       run: |
-        ruff check .
+        .venv/bin/ruff check .
 
     - name: Run ty
       run: |
-        ty check .
+        .venv/bin/ty check .
 
     - name: Run pytest
       run: |
-        pytest tests
+        .venv/bin/pytest tests
