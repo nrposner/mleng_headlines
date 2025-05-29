@@ -30,11 +30,11 @@ jobs:
 
     - name: Run pylint
       run: |
-        pylint tests/
+        pylint .
 
-    - name: Run mypy
+    - name: Run ty
       run: |
-        mypy .
+        ty check .
 
     - name: Run pytest
       run: |
