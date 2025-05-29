@@ -21,21 +21,31 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
+        python-version: '3.13'
+
+    - name: Create and activate virtual environment
+      run: |
+        python -m venv .venv
+        source .venv/bin/activate
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install pylint black mypy pytest fastapi httpx
+        .venv/bin/pip install --upgrade pip
+        .venv/bin/pip install -r requirements.txt
+        .venv/bin/pip install numpy ruff ty pytest flask httpx joblib sentence_transformers
 
-    - name: Run pylint
+    - name: List installed packages
       run: |
-        pylint tests/
+        .venv/bin/pip list
 
-    - name: Run mypy
+    - name: Run ruff
       run: |
-        mypy .
+        .venv/bin/ruff check .
+
+    - name: Run ty
+      run: |
+        .venv/bin/ty check .
 
     - name: Run pytest
       run: |
-        pytest tests
+        .venv/bin/pytest tests

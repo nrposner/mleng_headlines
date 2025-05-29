@@ -1,43 +1,3 @@
-# """
-# This module contains the FastAPI application with endpoints for 
-# status, greeting, and summing numbers
-# """
-#
-# from fastapi import FastAPI
-# from pydantic import BaseModel
-#
-# app = FastAPI(
-#     title="Simple FastAPI Server",
-#     description="A FastAPI server with status and greeting endpoints.",
-#     version="1.0.0"
-# )
-#
-# @app.get("/status")
-# def get_status() -> dict:
-#     """Returns the server status."""
-#     return {"status": "OK"}
-#
-# @app.get("/version")
-# def get_status() -> dict:
-#     """Returns the server status."""
-#     return {"status": "1.1"}
-#
-# @app.get("/sayhi/{name}")
-# def say_hi(name: str) -> dict:
-#     """Greets the user with their provided name."""
-#     return {"message": f"Hi, {name}!"}
-#
-# class SumRequest(BaseModel):
-#     """Request model for summing two numbers."""
-#     a: int
-#     b: int
-#
-# @app.post("/sum")
-# def sum_numbers(data: SumRequest) -> dict:
-#     """Returns the sum of two numbers using a POST request."""
-#     return {"sum": data.a + data.b}
-#
-# # Run as `fastapi run app.py`
 """
 An API for submitting newspaper headlines and getting back the sentiment
 classifications of those headlines.
@@ -90,6 +50,9 @@ def score_headlines():
     """
     try:
         data = request.json
+        if data is None:
+            logging.error("Error processing request: No JSON data received")
+            return jsonify({"error": "No JSON data received"}), 400
         headlines = data.get("headlines", [])
 
         if not isinstance(headlines, list) or not all(
@@ -116,11 +79,12 @@ def score_headlines():
 
         return jsonify({"labels": labels})
 
-    except Exception as e:
+    except ValueError as ve:
         logging.exception("Error processing request")
-        return jsonify({"error": str(e)}), 500
-    # assuming they do not get returned as a list specifically,
-    # but we need to get them out of this iterable
+        return jsonify({"error": str(ve)}), 500
+    except TypeError as te:
+        logging.exception("Error processing request")
+        return jsonify({"error": str(te)}), 500
 
 
 if __name__ == "__main__":
