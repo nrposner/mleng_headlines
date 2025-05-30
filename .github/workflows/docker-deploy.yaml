@@ -28,7 +28,6 @@ jobs:
             docker rm -f mleng_headlines || true
 
             cat <<EOF > docker-compose.yml
-
             services:
               mleng_headlines:
                 image: $IMAGE
@@ -38,6 +37,7 @@ jobs:
                 volumes:
                   - /opt/assignment_outputs:/app/data
                 restart: always
+                command: ["python", "app.py"]
             EOF
 
             docker compose up -d
