@@ -2,3 +2,5 @@ fastapi[standard]
 uvicorn
 datetime
 pydantic
+ruff
+ty
