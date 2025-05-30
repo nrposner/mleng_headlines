@@ -32,7 +32,6 @@ jobs:
       run: |
         .venv/bin/pip install --upgrade pip
         .venv/bin/pip install -r requirements.txt
-        .venv/bin/pip install numpy ruff ty pytest flask httpx joblib sentence_transformers
 
     - name: List installed packages
       run: |
