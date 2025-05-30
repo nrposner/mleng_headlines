@@ -5,6 +5,7 @@ status, greeting, and summing numbers
 
 from fastapi import FastAPI
 from pydantic import BaseModel
+from pathlib import Path
 
 app = FastAPI(
     title="Simple FastAPI Server",
@@ -33,4 +34,10 @@ def sum_numbers(data: SumRequest) -> dict:
     return {"sum": data.a + data.b}
 
 # Run as `fastapi run app.py`
-
+@app.post("/write_sum")
+def write_sum(data: SumRequest) -> dict:
+    """Sums two numbers and writes the result to a file inside /app/data"""
+    result = data.a + data.b
+    output_path = Path("/app/data/output.txt")
+    output_path.write_text(f"The sum of {data.a} and {data.b} is {result}\n")
+    return {"message": "Sum written to output.txt", "sum": result}

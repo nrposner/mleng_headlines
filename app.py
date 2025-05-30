@@ -1,7 +1,9 @@
 import datetime
 import os
+from pathlib import Path
 
 def say_hi(msg:str = "Hi!", file_directory:str = "/app/data/") -> None:
+    Path(file_directory).mkdir(parents=True, exist_ok=True)
     # Generate timestamp
     timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M")
 
