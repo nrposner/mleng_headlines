@@ -21,12 +21,13 @@ jobs:
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/mleng_headlines:latest
 
-            cd /assignment_4
+            cd $HOME/assignment_4
 
             IMAGE="${{ secrets.DOCKER_USERNAME }}/mleng_headlines:latest"
 
-            cat <<EOF > docker-compose.yml
+            docker rm -f mleng_headlines || true
 
+            cat <<EOF > docker-compose.yml
 
             services:
               mleng_headlines:
