@@ -20,7 +20,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/mleng_headlines:latest
-            cat <<EOF > /home/${{ secrets.SERVER_USER }}/mleng-headlines/docker-compose.yml
+            cat <<EOF > ~/assignment_4/docker-compose.yml
             version: "3.9"
             services:
               mleng_headlines:
@@ -33,7 +33,7 @@ jobs:
                 restart: always
             EOF
 
-            cd /home/${{ secrets.SERVER_USER }}/mleng-headlines
+            cd ~/assignment_4
 
             docker compose up -d
 
