@@ -20,9 +20,22 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/mleng_headlines:latest
-            docker stop mleng_headlines || true
-            docker rm mleng_headlines || true
-            docker run -d --name mleng_headlines -v /opt/assignment_outputs:/app/data ${{ secrets.DOCKER_USERNAME }}/mleng_headlines:latest
+            cat <<EOF > /home/${{ secrets.SERVER_USER }}/mleng-headlines/docker-compose.yml
+            version: "3.9"
+            services:
+              mleng_headlines:
+                image: ${{ secrets.DOCKER_USERNAME }}/mleng_headlines:latest
+                container_name: mleng_headlines
+                ports:
+                  - "9083:9083"
+                volumes:
+                  - /opt/assignment_outputs:/app/data
+                restart: always
+            EOF
+
+            cd /home/${{ secrets.SERVER_USER }}/mleng-headlines
+
+            docker compose up -d
 
 # The final block "logs on" to the remote server
 # - gets the latest docker image from the repository
