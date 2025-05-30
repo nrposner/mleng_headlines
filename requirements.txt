@@ -4,3 +4,4 @@ datetime
 pydantic
 ruff
 ty
+pytest
