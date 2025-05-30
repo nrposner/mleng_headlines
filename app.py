@@ -14,7 +14,7 @@ USER_NAME = "nicoposner"
 VERSION = "1.0.0"
 
 
-def sentiment_deployment_pipeline(headlines_txt, source):
+def sentiment_deployment_pipeline(headlines_txt):
     """
     A pipeline that takes in a file of daily headlines, and the source of the headlines,
     and runs a pretrained sentiment analysis model on them, writing the results to a file
@@ -31,7 +31,7 @@ def sentiment_deployment_pipeline(headlines_txt, source):
         A utf-8 encouded txt file where each row is the sentiment (Optimistic,
         Pessimistic, or Neutral), a comma, and the original headline.
     """
-    if headlines_txt is None or source is None:
+    if headlines_txt is None:
         raise ValueError("Both 'headlines_txt' and 'source' arguments are required.")
 
     # Load the headlines
@@ -45,7 +45,7 @@ def sentiment_deployment_pipeline(headlines_txt, source):
     embeddings = model.encode(headlines)  # assuming this is the necessary vector form
 
     # load the pretrained SVM classifier model in the local directory
-    classifier = joblib.load("svm.joblib")
+    classifier = joblib.load("/opt/shared_resource/svm.joblib")
 
     # predict the labels using the new embeddings
     y_pred = classifier.predict(embeddings)
@@ -58,7 +58,7 @@ def sentiment_deployment_pipeline(headlines_txt, source):
 
     # create the name of the file for output
     output_filename = (
-        f"nrposner_headline_scores_{source}_{date.year}_{date.month}_{date.day}.txt"
+        f"nrposner_headline_scores_{date.year}_{date.month}_{date.day}.txt"
     )
 
     # write the output file
@@ -74,13 +74,12 @@ if __name__ == "__main__":
     parser.add_argument(
         "headlines_txt", type=str, help="The path to the headlines text file."
     )
-    parser.add_argument("source", type=str, help="The source of the headlines.")
     args = parser.parse_args()
 
-    if not args.headlines_txt or not args.source:
-        raise ValueError("Both 'headlines_txt' and 'source' arguments are required.")
+    if not args.headlines_txt:
+        raise ValueError("The 'headlines_txt' arguments is required.")
 
-    sentiment_deployment_pipeline(args.headlines_txt, args.source)
+    sentiment_deployment_pipeline(args.headlines_txt)
 
 
 # def say_hi(msg:str = "Hi!", file_directory:str = "/app/data/") -> None:
@@ -88,7 +87,7 @@ if __name__ == "__main__":
 #     timestamp = datetime.now().strftime("%Y%m%d%H%M")
 #
 #     # Define filename with timestamp
-#     file_name = f"outputfile_{USER_NAME}_{VERSION}_timestamp_{timestamp}.txt"
+#     file_name = f"outputfile_nrposner_timestamp_{timestamp}.txt"
 #     file_path = os.join(file_directory, file_name)
 #
 #     # Write the timestamp inside the file
