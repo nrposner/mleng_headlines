@@ -20,11 +20,17 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/mleng_headlines:latest
-            cat <<EOF > ~/assignment_4/docker-compose.yml
-            version: "3.9"
+
+            cd /assignment_4
+
+            IMAGE="${{ secrets.DOCKER_USERNAME }}/mleng_headlines:latest"
+
+            cat <<EOF > docker-compose.yml
+
+
             services:
               mleng_headlines:
-                image: ${{ secrets.DOCKER_USERNAME }}/mleng_headlines:latest
+                image: $IMAGE
                 container_name: mleng_headlines
                 ports:
                   - "9083:9083"
@@ -32,8 +38,6 @@ jobs:
                   - /opt/assignment_outputs:/app/data
                 restart: always
             EOF
-
-            cd ~/assignment_4
 
             docker compose up -d
 
