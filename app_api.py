@@ -17,11 +17,6 @@ def get_status() -> dict:
     """Returns the server status."""
     return {"status": "OK"}
 
-@app.get("/version")
-def get_status() -> dict:
-    """Returns the server status."""
-    return {"status": "1.1"}
-
 @app.get("/sayhi/{name}")
 def say_hi(name: str) -> dict:
     """Greets the user with their provided name."""
